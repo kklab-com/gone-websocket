@@ -5,7 +5,7 @@ import (
 
 	"github.com/kklab-com/gone/channel"
 	"github.com/kklab-com/gone/http"
-	kklogger "github.com/kklab-com/goth-kklogger"
+	"github.com/kklab-com/goth-kklogger"
 )
 
 type HandlerTask interface {

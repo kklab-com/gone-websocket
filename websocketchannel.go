@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/kklab-com/gone/channel"
 	gtp "github.com/kklab-com/gone/http"
-	kklogger "github.com/kklab-com/goth-kklogger"
+	"github.com/kklab-com/goth-kklogger"
 )
 
 var ErrWrongObjectType = fmt.Errorf("wrong object type")

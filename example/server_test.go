@@ -11,7 +11,7 @@ import (
 	"github.com/kklab-com/gone/http"
 	"github.com/kklab-com/goth-kklogger"
 	"github.com/kklab-com/goth-kkutil/buf"
-	"github.com/kklab-com/goth-kkutil/sync"
+	"github.com/kklab-com/goth-kkutil/concurrent"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -80,7 +80,7 @@ func TestServer_Start(t *testing.T) {
 		Message:     []byte("write data"),
 	})
 
-	bwg := sync.BurstWaitGroup{}
+	bwg := concurrent.BurstWaitGroup{}
 	for i := 0; i < 10; i++ {
 		bwg.Add(1)
 		go func(i int) {
