@@ -55,7 +55,7 @@ func (h *WSUpgradeProcessor) Read(ctx channel.HandlerContext, obj interface{}) {
 						RemoteAddr: pack.Request.Request().RemoteAddr,
 					})
 
-					ctx.Write(obj, nil)
+					ctx.Write(obj, nil).Sync()
 					return
 				} else {
 					if kklogger.GetLogLevel() < kklogger.TraceLevel {
@@ -75,7 +75,7 @@ func (h *WSUpgradeProcessor) Read(ctx channel.HandlerContext, obj interface{}) {
 
 			if (h.UpgradeCheckFunc != nil && !h.UpgradeCheckFunc(pack.Request, pack.Response, pack.Params)) ||
 				(!task.WSUpgrade(pack.Request, pack.Response, pack.Params)) {
-				ctx.Write(pack, nil)
+				ctx.Write(pack, nil).Sync()
 				return
 			}
 
@@ -145,9 +145,9 @@ type WSLogStruct struct {
 	LocalAddr  net.Addr `json:"local_addr,omitempty"`
 	RequestURI string   `json:"request_uri,omitempty"`
 	ChannelID  string   `json:"channel_id,omitempty"`
-	TrackID string  `json:"trace_id,omitempty"`
-	Message Message `json:"message,omitempty"`
-	Error   error   `json:"error,omitempty"`
+	TrackID    string   `json:"trace_id,omitempty"`
+	Message    Message  `json:"message,omitempty"`
+	Error      error    `json:"error,omitempty"`
 }
 
 const WSLogType = "websocket"
