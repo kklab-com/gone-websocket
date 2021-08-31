@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/kklab-com/gone/channel"
-	gtp "github.com/kklab-com/gone/http"
+	"github.com/kklab-com/gone-core/channel"
+	gtp "github.com/kklab-com/gone-http/http"
 	"github.com/kklab-com/goth-kklogger"
 )
 

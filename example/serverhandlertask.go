@@ -3,9 +3,9 @@ package example
 import (
 	"fmt"
 
+	"github.com/kklab-com/gone-core/channel"
+	"github.com/kklab-com/gone-http/http"
 	websocket "github.com/kklab-com/gone-websocket"
-	"github.com/kklab-com/gone/channel"
-	"github.com/kklab-com/gone/http"
 	"github.com/kklab-com/goth-kkutil/value"
 )
 

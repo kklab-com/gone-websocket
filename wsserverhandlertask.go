@@ -1,6 +1,6 @@
 package websocket
 
-import "github.com/kklab-com/gone/http"
+import "github.com/kklab-com/gone-http/http"
 
 type DefaultServerHandlerTask struct {
 	DefaultHandlerTask

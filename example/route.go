@@ -1,7 +1,7 @@
 package example
 
 import (
-	gtp "github.com/kklab-com/gone/http"
+	gtp "github.com/kklab-com/gone-http/http"
 )
 
 type Route struct {
