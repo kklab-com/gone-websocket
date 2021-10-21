@@ -13,6 +13,7 @@ import (
 )
 
 var ErrWrongObjectType = fmt.Errorf("wrong object type")
+var ErrEmpty = fmt.Errorf("wrong object type")
 
 type Channel struct {
 	*channel.DefaultNetChannel
@@ -49,9 +50,9 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 					return *message.Deadline()
 				}()
 
-				return c.wsConn.WriteControl(message.Type().wsLibType(), message.Encoded(), dead)
+				return c.wsConn.WriteControl(message.Type().wsLibType(), c.getMessageBody(message), dead)
 			case *DefaultMessage:
-				return c.wsConn.WriteMessage(message.Type().wsLibType(), message.Encoded())
+				return c.wsConn.WriteMessage(message.Type().wsLibType(), c.getMessageBody(message))
 			default:
 				return ErrWrongObjectType
 			}
@@ -62,6 +63,15 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 	}
 
 	return nil
+}
+
+func (c *Channel) getMessageBody(msg Message) []byte {
+	bs := msg.Encoded()
+	if bs == nil {
+		return []byte{}
+	}
+
+	return bs
 }
 
 func (c *Channel) UnsafeRead() (interface{}, error) {

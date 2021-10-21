@@ -55,6 +55,10 @@ func (m *DefaultMessage) Type() MessageType {
 }
 
 func (m *DefaultMessage) Encoded() []byte {
+	if m.Message == nil {
+		m.Message = []byte{}
+	}
+	
 	return m.Message
 }
 
