@@ -2,9 +2,12 @@ package websocket
 
 import (
 	"encoding/binary"
+	"fmt"
 	"time"
 
 	"github.com/gorilla/websocket"
+	kklogger "github.com/kklab-com/goth-kklogger"
+	"github.com/kklab-com/goth-kkutil/hex"
 )
 
 const (
@@ -55,10 +58,6 @@ func (m *DefaultMessage) Type() MessageType {
 }
 
 func (m *DefaultMessage) Encoded() []byte {
-	if m.Message == nil {
-		m.Message = []byte{}
-	}
-	
 	return m.Message
 }
 
@@ -108,6 +107,8 @@ func _ParseMessage(messageType int, bs []byte) *DefaultMessage {
 			MessageType: BinaryMessageType,
 			Message:     bs,
 		}
+	default:
+		kklogger.ErrorJ("_ParseMessage", fmt.Sprintf("unknown message type %d with data %s", messageType, hex.EncodeToString(bs)))
 	}
 
 	return nil

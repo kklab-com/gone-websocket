@@ -80,6 +80,10 @@ func TestServer_Start(t *testing.T) {
 		Message:     []byte("write data"),
 	})
 
+	ch.Write(&websocket.DefaultMessage{
+		MessageType: websocket.BinaryMessageType,
+	})
+
 	bwg := concurrent.BurstWaitGroup{}
 	for i := 0; i < 10; i++ {
 		bwg.Add(1)

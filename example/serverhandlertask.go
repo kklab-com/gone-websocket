@@ -37,6 +37,11 @@ func (h *ServerHandlerTask) WSText(ctx channel.HandlerContext, message *websocke
 	ctx.Write(obj, nil).Sync()
 }
 
+func (h *ServerHandlerTask) WSBinary(ctx channel.HandlerContext, message *websocket.DefaultMessage, params map[string]interface{}) {
+	println("server WSBinary")
+	println(message.StringMessage())
+}
+
 func (h *ServerHandlerTask) WSClose(ctx channel.HandlerContext, message *websocket.CloseMessage, params map[string]interface{}) {
 	println(fmt.Sprintf("%s server WSClose %s", ctx.Channel().ID(), message.StringMessage()))
 }

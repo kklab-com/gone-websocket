@@ -40,6 +40,7 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 		return channel.ErrUnknownObjectType
 	} else {
 		if err := func() error {
+			bs := message.Encoded()
 			switch message.(type) {
 			case *CloseMessage, *PingMessage, *PongMessage:
 				dead := func() time.Time {
@@ -50,9 +51,9 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 					return *message.Deadline()
 				}()
 
-				return c.wsConn.WriteControl(message.Type().wsLibType(), c.getMessageBody(message), dead)
+				return c.wsConn.WriteControl(message.Type().wsLibType(), bs, dead)
 			case *DefaultMessage:
-				return c.wsConn.WriteMessage(message.Type().wsLibType(), c.getMessageBody(message))
+				return c.wsConn.WriteMessage(message.Type().wsLibType(), bs)
 			default:
 				return ErrWrongObjectType
 			}
@@ -63,15 +64,6 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 	}
 
 	return nil
-}
-
-func (c *Channel) getMessageBody(msg Message) []byte {
-	bs := msg.Encoded()
-	if bs == nil {
-		return []byte{}
-	}
-
-	return bs
 }
 
 func (c *Channel) UnsafeRead() (interface{}, error) {
