@@ -22,9 +22,12 @@ func TestServer_Start(t *testing.T) {
 		ChannelType(&http.ServerChannel{}).
 		SetParams(websocket.ParamCheckOrigin, false)
 
+	clientCountHandler := &ServerChildCountHandler{}
 	server := serverBootstrap.
 		ChildHandler(channel.NewInitializer(func(ch channel.Channel) {
-			ch.Pipeline().AddLast("DISPATCHER", http.NewDispatchHandler(NewRoute())).
+			ch.Pipeline().
+				AddLast("CLIENT_COUNT_HANDLER", clientCountHandler).
+				AddLast("DISPATCHER", http.NewDispatchHandler(NewRoute())).
 				AddLast("WS_UPGRADE", &websocket.WSUpgradeProcessor{})
 		})).
 		Bind(&net.TCPAddr{IP: nil, Port: 18081}).Sync().Channel()
@@ -85,7 +88,7 @@ func TestServer_Start(t *testing.T) {
 	})
 
 	bwg := concurrent.BurstWaitGroup{}
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 50; i++ {
 		bwg.Add(1)
 		go func(i int) {
 			chs := bootstrap.Connect(nil, &websocket.WSCustomConnectConfig{Url: "ws://localhost:18081/echo", Header: nil}).Sync().Channel()
@@ -110,4 +113,6 @@ func TestServer_Start(t *testing.T) {
 
 	time.Sleep(time.Millisecond * 500)
 	server.CloseFuture().Sync()
+	assert.Equal(t, int32(0), clientCountHandler.regTrigCount)
+	assert.Equal(t, int32(0), clientCountHandler.actTrigCount)
 }

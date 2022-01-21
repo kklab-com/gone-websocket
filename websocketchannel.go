@@ -82,12 +82,6 @@ func (c *Channel) UnsafeRead() (interface{}, error) {
 			if wsErr, ok := err.(*websocket.CloseError); !(ok && wsErr.Code == 1000) {
 				kklogger.WarnJ("websocket:Channel.read", err.Error())
 			}
-
-			if c.Conn().IsActive() {
-				c.Disconnect()
-			} else {
-				c.Deregister()
-			}
 		}
 
 		return nil, err
