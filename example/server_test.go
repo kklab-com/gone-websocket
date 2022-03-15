@@ -9,9 +9,9 @@ import (
 	"github.com/kklab-com/gone-core/channel"
 	"github.com/kklab-com/gone-http/http"
 	websocket "github.com/kklab-com/gone-websocket"
+	buf "github.com/kklab-com/goth-bytebuf"
+	concurrent "github.com/kklab-com/goth-concurrent"
 	"github.com/kklab-com/goth-kklogger"
-	"github.com/kklab-com/goth-kkutil/buf"
-	"github.com/kklab-com/goth-kkutil/concurrent"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -87,7 +87,7 @@ func TestServer_Start(t *testing.T) {
 		MessageType: websocket.BinaryMessageType,
 	})
 
-	bwg := concurrent.BurstWaitGroup{}
+	bwg := concurrent.WaitGroup{}
 	for i := 0; i < 50; i++ {
 		bwg.Add(1)
 		go func(i int) {
