@@ -13,18 +13,18 @@ type InvokeHandler struct {
 	channel.DefaultHandler
 	DefaultHandlerTask
 	task   HandlerTask
-	params map[string]interface{}
+	params map[string]any
 }
 
-func NewInvokeHandler(task HandlerTask, params map[string]interface{}) *InvokeHandler {
+func NewInvokeHandler(task HandlerTask, params map[string]any) *InvokeHandler {
 	if params == nil {
-		params = map[string]interface{}{}
+		params = map[string]any{}
 	}
 
 	return &InvokeHandler{task: task, params: params}
 }
 
-func (h *InvokeHandler) Read(ctx channel.HandlerContext, obj interface{}) {
+func (h *InvokeHandler) Read(ctx channel.HandlerContext, obj any) {
 	if ch, ok := ctx.Channel().(*Channel); ok {
 		if msg, ok := obj.(Message); ok {
 			h._Call(ctx, ch.Request, ch.Response, h.task, msg, h.params)
@@ -52,7 +52,7 @@ func (h *InvokeHandler) Inactive(ctx channel.HandlerContext) {
 	ctx.FireInactive()
 }
 
-func (h *InvokeHandler) _Call(ctx channel.HandlerContext, req *http.Request, resp *http.Response, task HandlerTask, msg Message, params map[string]interface{}) {
+func (h *InvokeHandler) _Call(ctx channel.HandlerContext, req *http.Request, resp *http.Response, task HandlerTask, msg Message, params map[string]any) {
 	kkpanic.Catch(func() {
 		switch msg.Type() {
 		case TextMessageType:

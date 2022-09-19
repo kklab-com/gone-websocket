@@ -9,19 +9,19 @@ import (
 )
 
 type HandlerTask interface {
-	WSPing(ctx channel.HandlerContext, message *PingMessage, params map[string]interface{})
-	WSPong(ctx channel.HandlerContext, message *PongMessage, params map[string]interface{})
-	WSClose(ctx channel.HandlerContext, message *CloseMessage, params map[string]interface{})
-	WSBinary(ctx channel.HandlerContext, message *DefaultMessage, params map[string]interface{})
-	WSText(ctx channel.HandlerContext, message *DefaultMessage, params map[string]interface{})
-	WSConnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]interface{})
-	WSDisconnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]interface{})
+	WSPing(ctx channel.HandlerContext, message *PingMessage, params map[string]any)
+	WSPong(ctx channel.HandlerContext, message *PongMessage, params map[string]any)
+	WSClose(ctx channel.HandlerContext, message *CloseMessage, params map[string]any)
+	WSBinary(ctx channel.HandlerContext, message *DefaultMessage, params map[string]any)
+	WSText(ctx channel.HandlerContext, message *DefaultMessage, params map[string]any)
+	WSConnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]any)
+	WSDisconnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]any)
 	WSErrorCaught(ctx channel.HandlerContext, req *http.Request, resp *http.Response, msg Message, err error)
 }
 
 type ServerHandlerTask interface {
 	HandlerTask
-	WSUpgrade(req *http.Request, resp *http.Response, params map[string]interface{}) bool
+	WSUpgrade(req *http.Request, resp *http.Response, params map[string]any) bool
 }
 
 type DefaultHandlerTask struct {
@@ -33,7 +33,7 @@ func (h *DefaultHandlerTask) ErrorCaught(ctx channel.HandlerContext, err error) 
 	kklogger.ErrorJ("websocket:DefaultHandlerTask", err.Error())
 }
 
-func (h *DefaultHandlerTask) WSPing(ctx channel.HandlerContext, message *PingMessage, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSPing(ctx channel.HandlerContext, message *PingMessage, params map[string]any) {
 	dead := time.Now().Add(time.Minute)
 	rtn := &PongMessage{
 		DefaultMessage: DefaultMessage{
@@ -46,22 +46,22 @@ func (h *DefaultHandlerTask) WSPing(ctx channel.HandlerContext, message *PingMes
 	ctx.Write(rtn, nil)
 }
 
-func (h *DefaultHandlerTask) WSPong(ctx channel.HandlerContext, message *PongMessage, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSPong(ctx channel.HandlerContext, message *PongMessage, params map[string]any) {
 }
 
-func (h *DefaultHandlerTask) WSClose(ctx channel.HandlerContext, message *CloseMessage, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSClose(ctx channel.HandlerContext, message *CloseMessage, params map[string]any) {
 }
 
-func (h *DefaultHandlerTask) WSBinary(ctx channel.HandlerContext, message *DefaultMessage, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSBinary(ctx channel.HandlerContext, message *DefaultMessage, params map[string]any) {
 }
 
-func (h *DefaultHandlerTask) WSText(ctx channel.HandlerContext, message *DefaultMessage, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSText(ctx channel.HandlerContext, message *DefaultMessage, params map[string]any) {
 }
 
-func (h *DefaultHandlerTask) WSConnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSConnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]any) {
 }
 
-func (h *DefaultHandlerTask) WSDisconnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]interface{}) {
+func (h *DefaultHandlerTask) WSDisconnected(ch channel.Channel, req *http.Request, resp *http.Response, params map[string]any) {
 }
 
 func (h *DefaultHandlerTask) WSErrorCaught(ctx channel.HandlerContext, req *http.Request, resp *http.Response, msg Message, err error) {

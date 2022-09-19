@@ -15,7 +15,7 @@ import (
 type WSUpgradeProcessor struct {
 	channel.DefaultHandler
 	upgrade          *websocket.Upgrader
-	UpgradeCheckFunc func(req *gtp.Request, resp *gtp.Response, params map[string]interface{}) bool
+	UpgradeCheckFunc func(req *gtp.Request, resp *gtp.Response, params map[string]any) bool
 }
 
 func (h *WSUpgradeProcessor) Added(ctx channel.HandlerContext) {
@@ -32,7 +32,7 @@ func (h *WSUpgradeProcessor) Added(ctx channel.HandlerContext) {
 	}
 }
 
-func (h *WSUpgradeProcessor) Read(ctx channel.HandlerContext, obj interface{}) {
+func (h *WSUpgradeProcessor) Read(ctx channel.HandlerContext, obj any) {
 	if obj == nil {
 		return
 	}

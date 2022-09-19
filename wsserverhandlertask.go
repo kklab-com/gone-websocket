@@ -6,6 +6,6 @@ type DefaultServerHandlerTask struct {
 	DefaultHandlerTask
 }
 
-func (h *DefaultServerHandlerTask) WSUpgrade(req *http.Request, resp *http.Response, params map[string]interface{}) bool {
+func (h *DefaultServerHandlerTask) WSUpgrade(req *http.Request, resp *http.Response, params map[string]any) bool {
 	return true
 }

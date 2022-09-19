@@ -30,7 +30,7 @@ func (c *Channel) Init() channel.Channel {
 	return c.DefaultNetChannel.Init()
 }
 
-func (c *Channel) UnsafeWrite(obj interface{}) error {
+func (c *Channel) UnsafeWrite(obj any) error {
 	if !c.IsActive() {
 		return net.ErrClosed
 	}
@@ -66,7 +66,7 @@ func (c *Channel) UnsafeWrite(obj interface{}) error {
 	return nil
 }
 
-func (c *Channel) UnsafeRead() (interface{}, error) {
+func (c *Channel) UnsafeRead() (any, error) {
 	if c.Conn() == nil {
 		return nil, channel.ErrNilObject
 	}
