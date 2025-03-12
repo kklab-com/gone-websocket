@@ -6,8 +6,8 @@ toolchain go1.24.0
 
 require (
 	github.com/gorilla/websocket v1.4.2
-	github.com/kklab-com/gone-core v1.2.3
-	github.com/kklab-com/gone-http v1.4.1
+	github.com/kklab-com/gone-core v1.3.0
+	github.com/kklab-com/gone-http v1.5.0
 	github.com/kklab-com/gone-httpstatus v0.0.0-20210329135420-5f09bea125ca
 	github.com/kklab-com/goth-bytebuf v1.0.1
 	github.com/kklab-com/goth-concurrent v1.2.0

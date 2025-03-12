@@ -40,7 +40,7 @@ func (h *WSUpgradeProcessor) Read(ctx channel.HandlerContext, obj any) {
 	if pack, cast := obj.(*gtp.Pack); cast && pack.RouteNode != nil {
 		if task, ok := pack.RouteNode.HandlerTask().(ServerHandlerTask); ok {
 			for _, acceptance := range pack.RouteNode.AggregatedAcceptances() {
-				if err := acceptance.Do(pack.Request, pack.Response, pack.Params); err != nil {
+				if err := acceptance.Do(ctx, pack.Request, pack.Response, pack.Params); err != nil {
 					if err == gtp.AcceptanceInterrupt {
 						return
 					}
