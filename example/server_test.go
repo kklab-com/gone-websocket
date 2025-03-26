@@ -1,6 +1,9 @@
 package example
 
 import (
+	buf "github.com/kklab-com/goth-bytebuf"
+	concurrent "github.com/kklab-com/goth-concurrent"
+	"github.com/stretchr/testify/assert"
 	"net"
 	http2 "net/http"
 	"testing"
@@ -9,10 +12,7 @@ import (
 	"github.com/kklab-com/gone-core/channel"
 	"github.com/kklab-com/gone-http/http"
 	websocket "github.com/kklab-com/gone-websocket"
-	buf "github.com/kklab-com/goth-bytebuf"
-	concurrent "github.com/kklab-com/goth-concurrent"
 	"github.com/kklab-com/goth-kklogger"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestServer_Start(t *testing.T) {
